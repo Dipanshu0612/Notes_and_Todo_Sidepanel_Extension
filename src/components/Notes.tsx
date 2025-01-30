@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { RxCross1 } from "react-icons/rx";
+import { toast } from "react-toastify";
 
 export default function Notes() {
   const [notes, setNotes] = useState([
@@ -14,24 +15,34 @@ export default function Notes() {
   });
 
   const addTodo = () => {
-    if (note.title.trim() === "" || note.content.trim() === "") return;
+    if (note.title.trim() === "" || note.content.trim() === "") {
+      toast.error("Title and content cannot be empty!");
+      return;
+    }
     localStorage.setItem("notes", JSON.stringify([...notes, note]));
     setNotes([...notes, { title: note.title, content: note.content }]);
     setNote({
       title: "",
       content: "",
     });
+    toast.success("Note added successfully!");
   };
 
   const removeNote = (index: number) => {
     const newTodos = notes.filter((_, i) => i !== index);
     localStorage.setItem("notes", JSON.stringify(newTodos));
     setNotes(newTodos);
+    toast.error("Note removed successfully!");
   };
 
   useEffect(() => {
-    const data = localStorage.getItem("notes");
-    setNotes(data ? JSON.parse(data) : []);
+    try {
+      const data = localStorage.getItem("notes");
+      setNotes(data ? JSON.parse(data) : []);
+    } catch (error) {
+      toast.error("Failed to load notes!");
+      console.error(error);
+    }
   }, []);
 
   return (

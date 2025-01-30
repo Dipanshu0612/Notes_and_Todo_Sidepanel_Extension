@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { MdOutlineDone } from "react-icons/md";
 import { RxCross1 } from "react-icons/rx";
+import { toast } from "react-toastify";
 
 export default function Todos() {
   const [todos, setTodos] = useState([
@@ -12,16 +13,21 @@ export default function Todos() {
   const [todo, setTodo] = useState("");
 
   const addTodo = () => {
-    if (todo.trim() === "") return;
+    if (todo.trim() === "") {
+      toast.error("Todo cannot be empty!");
+      return;
+    }
     localStorage.setItem("todos", JSON.stringify([...todos, todo]));
     setTodos([...todos, { title: todo, completed: false }]);
     setTodo("");
+    toast.success("Todo added successfully!");
   };
 
   const removeTodo = (index: number) => {
     const newTodos = todos.filter((_, i) => i !== index);
     localStorage.setItem("todos", JSON.stringify(newTodos));
     setTodos(newTodos);
+    toast.success("Todo removed successfully!");
   };
 
   const completedTodo = (index: number) => {
@@ -29,11 +35,17 @@ export default function Todos() {
     newTodos[index].completed = true;
     localStorage.setItem("todos", JSON.stringify(newTodos));
     setTodos(newTodos);
+    toast.success("Todo completed successfully!");
   };
 
   useEffect(() => {
-    const data = localStorage.getItem("todos");
-    setTodos(data ? JSON.parse(data) : []);
+    try {
+      const data = localStorage.getItem("todos");
+      setTodos(data ? JSON.parse(data) : []);
+    } catch (error) {
+      toast.error("Failed to load todos!");
+      console.error(error);
+    }
   }, []);
 
   return (

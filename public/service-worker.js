@@ -11,3 +11,8 @@ chrome.tabs.onUpdated.addListener(async (tabId, info, tab) => {
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch((error) => console.error(error));
+
+chrome.sidePanel.setOptions({
+  enabled: true,
+  path: "index.html",
+});

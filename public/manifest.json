@@ -14,6 +14,8 @@
     "default_title": "Notes and To-Do Sidepanel"
   },
   "side_panel": {
+    "default_title":"Notes and To-Do Sidepanel",
+    "default_icon":"icons/icon16.png",
     "default_path": "index.html"
   },
   "permissions": ["sidePanel", "storage"],
