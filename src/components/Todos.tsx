@@ -4,12 +4,7 @@ import { RxCross1 } from "react-icons/rx";
 import { toast } from "react-toastify";
 
 export default function Todos() {
-  const [todos, setTodos] = useState([
-    {
-      title: "",
-      completed: false,
-    },
-  ]);
+  const [todos, setTodos] = useState<{ title: string; completed: boolean }[]>([]);
   const [todo, setTodo] = useState("");
 
   const addTodo = () => {
@@ -17,7 +12,7 @@ export default function Todos() {
       toast.error("Todo cannot be empty!");
       return;
     }
-    localStorage.setItem("todos", JSON.stringify([...todos, todo]));
+    localStorage.setItem("todos", JSON.stringify([...todos, {title:todo, completed:false}]));
     setTodos([...todos, { title: todo, completed: false }]);
     setTodo("");
     toast.success("Todo added successfully!");
@@ -90,7 +85,7 @@ export default function Todos() {
                 </div>
                 <div className="flex gap-2">
                   <button
-                    className={`!bg-green-400 hover:!bg-green-600 ${
+                    className={`!bg-green-400 hover:!bg-green-600 p-2 ${
                       todo_item.completed ? "!cursor-not-allowed" : ""
                     }`}
                     onClick={() => completedTodo(index)}
@@ -99,7 +94,7 @@ export default function Todos() {
                     <MdOutlineDone />
                   </button>
                   <button
-                    className="!bg-red-400 hover:!bg-red-600"
+                    className="!bg-red-400 hover:!bg-red-600 p-2"
                     onClick={() => removeTodo(index)}
                   >
                     <RxCross1 />

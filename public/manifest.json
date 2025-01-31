@@ -2,16 +2,22 @@
   "manifest_version": 3,
   "name": "Notes and To-Do Sidepanel",
   "description": "A simple sidepanel for taking notes and managing to-dos.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "action": {
     "default_icon": "icons/icon16.png",
     "default_title": "Notes and To-Do Sidepanel"
   },
   "side_panel": {
-    "default_title":"Notes and To-Do Sidepanel",
-    "default_icon":"icons/icon16.png",
+    "default_title": "Notes and To-Do Sidepanel",
+    "default_icon": "icons/icon16.png",
     "default_path": "index.html"
   },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["injectScript.js"]
+    }
+  ],
   "permissions": ["sidePanel", "storage"],
   "icons": {
     "16": "icons/icon16.png",
@@ -20,7 +26,11 @@
     "64": "icons/icon64.png",
     "128": "icons/icon128.png"
   },
-  "host_permissions": ["https://*/*", "http://*/*"],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*",
+    "https://apis.google.com/*"
+  ],
   "background": {
     "service_worker": "service-worker.js"
   }
